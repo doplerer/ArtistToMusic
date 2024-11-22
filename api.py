@@ -42,8 +42,9 @@ def getCanciones(artist_id):
             "offset": offset
         }
 
-        # Realizar solicitud
+        # Solicitud
         response = requests.get(url, params=params)
+        #print(response.url)
         if response.status_code == 200:
             data = response.json()
             recordings = data.get("recordings", [])
@@ -52,9 +53,25 @@ def getCanciones(artist_id):
             if not recordings:
                 break
 
-            # Extraer títulos y agregarlos a la lista
+            # Filtrar resultados que no sean canciones
             for recording in recordings:
-                title = recording["title"]
+                title = recording["title"].lower()
+                length = recording.get("length", 0)
+                disambiguation = recording.get("disambiguation", "").lower()
+
+                # --- FILTROS ---
+                # Filtro por duración
+                if length and length < 30000:
+                    continue
+
+                # Filtro por tipo
+                if any(keyword in disambiguation for keyword in ["instrumental", "live"]):
+                    continue
+
+                if any(keyword in title for keyword in ["(instrumental)", "(live)"]):
+                    continue
+                
+                # agrega canciones que si cunmplan los requisitos
                 titulos.append(title)
 
             # Actualizar el offset para la próxima solicitud
