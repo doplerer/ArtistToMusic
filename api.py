@@ -1,7 +1,6 @@
 import requests
 from cancion import Cancion
 from funciones import filtros
-from funciones import eliminar_repetidos
 import time
 
 # Busca el ID de un artista por nombre
