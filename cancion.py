@@ -12,3 +12,6 @@ class Cancion:
 
     def setLink(self, link):
         self.link = link
+
+    def getLink(Self):
+        return Self.link
