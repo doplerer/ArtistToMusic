@@ -1,12 +1,14 @@
 import requests
 from cancion import Cancion
+from funciones import filtros
+from funciones import eliminar_repetidos
 import time
 
 # Busca el ID de un artista por nombre
 def getId(artista):
     url = "https://musicbrainz.org/ws/2/artist"
     params = {
-        "query": f'artist:"{artista}"',  # Busca por nombre exacto del artista
+        "query": f'artist:"{artista}"',
         "fmt": "json"
     }
     response = requests.get(url, params=params)
@@ -34,17 +36,15 @@ def getCanciones(artist_id):
     while True:
         time.sleep(1) # sleep de 1s para evitar bloqueos
 
-        # Parámetros de la solicitud
+        # Solicitud
         params = {
             "artist": artist_id,
             "fmt": "json",
             "limit": limit,
             "offset": offset
         }
-
-        # Solicitud
         response = requests.get(url, params=params)
-        #print(response.url)
+
         if response.status_code == 200:
             data = response.json()
             recordings = data.get("recordings", [])
@@ -55,26 +55,11 @@ def getCanciones(artist_id):
 
             # Filtrar resultados que no sean canciones
             for recording in recordings:
-                title = recording["title"].lower()
-                length = recording.get("length", 0)
-                disambiguation = recording.get("disambiguation", "").lower()
-
-                # --- FILTROS ---
-                # Filtro por duración
-                if length and length < 30000:
-                    continue
-
-                # Filtro por tipo
-                if any(keyword in disambiguation for keyword in ["instrumental", "live"]):
-                    continue
-
-                if any(keyword in title for keyword in ["(instrumental)", "(live)"]):
-                    continue
                 
-                # agrega canciones que si cunmplan los requisitos
-                titulos.append(title)
+                # añade canciones a lista si pasan filtros
+                if filtros(recording):
+                    titulos.append(recording["title"])
 
-            # Actualizar el offset para la próxima solicitud
             offset += limit
 
         else:
@@ -84,6 +69,8 @@ def getCanciones(artist_id):
 
     # Borra repetidas
     titulos = list(set(titulos))
+
+    # Añade canciones a lista final
     for titulo in titulos:
         cancion = Cancion(titulo)
         canciones.append(cancion)
