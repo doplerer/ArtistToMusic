@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import requests
 from cancion import Cancion
 from funciones import filtros
