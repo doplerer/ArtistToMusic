@@ -11,12 +11,13 @@ def main():
     links = [] # Links de descarga
     
     # Generación de links
-    resultados = controladorThreads(canciones=canciones, max_workers=100)
+    links = controladorThreads(canciones=canciones, max_workers=100)
+    if links[0] is not False:
+        
+        # Guardado de links en .txt
+        guardar_txt(cantante=cantante, links=links)
 
-    # Guardado de links en .txt
-    guardar_txt(cantante=cantante, links=links)
-
-    print("Se han generado " + str(len(resultados)) + " links")
+        print("Se han generado " + str(len(links)) + " links")
 
 
 

@@ -5,6 +5,9 @@ from cancion import Cancion
 from funciones import filtros
 import time
 
+# Carga .env de /
+load_dotenv()
+
 # Busca el ID de un artista por nombre
 def getId(artista):
     url = "https://musicbrainz.org/ws/2/artist"
@@ -96,5 +99,7 @@ def youtube_link(cancion):
         if data["items"]:
             video_id = data["items"][0]["id"]["videoId"]
             return f"https://www.youtube.com/watch?v={video_id}"
+    else:
+        print(response.text)
         
     return False # en caso de error
