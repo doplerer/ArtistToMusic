@@ -75,3 +75,24 @@ def getCanciones(artist_id):
         canciones.append(cancion)
 
     return canciones
+
+# Obtiene el link de youtube de una canción mediante su nombre
+def youtube_link(cancion):
+    url = "https://www.googleapis.com/youtube/v3/search"
+    params = {
+        "part": "snippet",
+        "q": cancion,
+        "type": "video",
+        "maxResults": 1,
+        "order": "relevance",
+        "key": os.getenv("API_KEY")
+    }
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if data["items"]:
+            video_id = data["items"][0]["id"]["videoId"]
+            return f"https://www.youtube.com/watch?v={video_id}"
+        
+    return False # en caso de error
