@@ -1,11 +1,6 @@
-import os
-from dotenv import load_dotenv
 import requests
 from funciones import filtros
 import time
-
-# Carga .env de /
-load_dotenv()
 
 # Busca el ID de un artista por nombre
 def getId(artista):
