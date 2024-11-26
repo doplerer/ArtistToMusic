@@ -1,21 +1,24 @@
 # Artist to Music
-import api
+import musicApi
 from threadController import controladorThreads
 from txt import guardar_txt
 
 def main():
-    cantante = input("Introduce el nombre del cantante: ")
-    id_cantante = api.getId(cantante)
+    artista = input("Introduce el nombre del cantante: ")
+    id_artista = musicApi.getId(artista)
 
-    canciones = api.getCanciones(id_cantante) # Nombres de canciones
+    canciones = musicApi.getCanciones(id_artista, artista) # Nombres de canciones
     links = [] # Links de descarga
     
+    for cancion in canciones:
+        print(cancion)
+
     # Generación de links
     links = controladorThreads(canciones=canciones, max_workers=100)
     if links[0] is not False:
-        
+        links = list(set(links))
         # Guardado de links en .txt
-        guardar_txt(cantante=cantante, links=links)
+        guardar_txt(artista=artista, links=links)
 
         print("Se han generado " + str(len(links)) + " links")
 
