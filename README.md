@@ -10,7 +10,8 @@
 ## How it works
 
 Once you run the tool, simply enter the name of the artist and let the tool do the rest. When it’s finished, you’ll receive a .txt file with all the links, one per line.
-To download the songs, I recommend using Youtube-dl
+
+To download the songs, I recommend using [Youtube-dl-gui](https://github.com/oleksis/youtube-dl-gui)
 
 ## Installation
 
