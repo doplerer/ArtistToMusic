@@ -4,7 +4,7 @@ from threadController import controladorThreads
 from txt import guardar_txt
 
 def main():
-    artista = input("Introduce el nombre del cantante: ")
+    artista = input("Insert artist's name: ")
     id_artista = musicApi.getId(artista)
 
     canciones = musicApi.getCanciones(id_artista, artista) # Nombres de canciones
@@ -20,7 +20,7 @@ def main():
         # Guardado de links en .txt
         guardar_txt(artista=artista, links=links)
 
-        print("Se han generado " + str(len(links)) + " links")
+        print(str(len(links)) + " links generated")
 
 
 
