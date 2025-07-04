@@ -1,5 +1,7 @@
 # ArtistToMusic
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **ArtistToMusic** is a simple  Command-line program that generates YouTube links for all songs by a specific artist.
 
 ## Features
